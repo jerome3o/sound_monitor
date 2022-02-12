@@ -1,6 +1,6 @@
-# Bunnings Telescreen
+# Sound Monitor
 
-Big Bunnings Brother mandates no sound above regulation dB levels. Calibrated to Jerome's shitty headset.
+Big Bunnings Brother mandates no sound above regulation dB levels. Calibrated to Jerome's cheapo headset.
 
 
 # Setup
