@@ -5,34 +5,15 @@ Big Bunnings Brother mandates no sound above regulation dB levels. Calibrated to
 
 # Setup
 
-## Backend
-
 ```bash
 python -m venv venv
 . venv/bin/activate
 pip install -r frontend/requirements.txt
 ```
 
-## Frontend
-
-All you need is a static server, I use `browser-sync` for development:
+# Usage
 
 ```bash
-npm install -g browser-sync
+uvicorn server:app --host 0.0.0.0 --port 8000
 ```
-
-
-# Running
-
-## Backend
-
-```bash
-uvicorn backend.server:app --host 0.0.0.0
-```
-
-## Frontend
-
-```bash
-cd frontend
-browser-sync start -s -f . --no-notify --host 0.0.0.0 --port 9000
-```
+ Then the navigate to `localhost:8000` and you should have the UI displaying the sound data

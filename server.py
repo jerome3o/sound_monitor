@@ -1,15 +1,19 @@
 import asyncio
 import json
 
+from pathlib import Path
+
 from typing import List
 from fastapi import FastAPI, WebSocket
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from uvicorn import Config, Server
 
 
 import numpy as np
 
-from backend.sound import (
+from sound import (
     calculate_max_amplitude,
     calculate_psd,
     init_stream,
@@ -72,6 +76,14 @@ def _get_data_packet(data: np.array):
         "spectra": calculate_psd(data),
         "max_amplitude": calculate_max_amplitude(data),
     }
+
+
+@app.get("/")
+def index():
+    return HTMLResponse(Path("static/index.html").read_text())
+
+
+app.mount("/", StaticFiles(directory="static"))
 
 
 async def transmit_data():

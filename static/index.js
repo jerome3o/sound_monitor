@@ -1,8 +1,8 @@
 // TODO: need to insert the server addr.WebSocket
-let server = "192.168.1.250";
+let server = window.location.host;
 
 function startPlotting(breakPoints, timeStep) {
-  var ws = new WebSocket(`ws://${server}:8000/ws`);
+  var ws = new WebSocket(`ws://${server}/ws`);
 
   const dataLen = 200;
   const spectroX = [...Array(dataLen).keys()];
@@ -53,7 +53,7 @@ function startPlotting(breakPoints, timeStep) {
   };
 }
 
-fetch(`http://${server}:8000/settings`)
+fetch(`http://${server}/settings`)
   .then((result) => result.json())
   .then((json) => {
     startPlotting(json.break_points, json.time_step);
