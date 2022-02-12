@@ -10,9 +10,16 @@ Big Bunnings Brother mandates no sound above regulation dB levels. Calibrated to
 ```bash
 python -m venv venv
 . venv/bin/activate
-pip install -r requirements
+pip install -r frontend/requirements.txt
 ```
 
+## Frontend
+
+Add you need is a static server, I use `browser-sync` for development:
+
+```bash
+npm install -g browser-sync
+```
 
 
 # Running
