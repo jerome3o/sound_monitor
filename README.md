@@ -15,7 +15,7 @@ pip install -r frontend/requirements.txt
 
 ## Frontend
 
-Add you need is a static server, I use `browser-sync` for development:
+All you need is a static server, I use `browser-sync` for development:
 
 ```bash
 npm install -g browser-sync
