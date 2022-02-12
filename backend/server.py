@@ -1,14 +1,14 @@
 import asyncio
+import json
 
 from typing import List
 from fastapi import FastAPI, WebSocket
-from fastapi.responses import HTMLResponse
 from uvicorn import Config, Server
 
 
 import numpy as np
 
-from backend.sound import init_stream
+from backend.sound import calculate_max_amplitude, calculate_psd, init_stream
 
 
 app = FastAPI()
@@ -27,6 +27,7 @@ def make_iter():
 
     return get(), put
 
+
 _get, _put = make_iter()
 stream = init_stream(_put)
 
@@ -41,28 +42,33 @@ async def websocket_endpoint(websocket: WebSocket):
 
     while True:
         await websocket.receive_text()
-        
+
+
+def _get_data_packet(data: np.array):
+    return {
+        "spectra": calculate_psd(data),
+        "max_amplitude": calculate_max_amplitude(data),
+    }
+
 
 async def transmit_data():
     async for data in _get:
         for ws in _ws_list:
             try:
-                await ws.send_text(str(np.mean(abs(data))))
+                await ws.send_text(json.dumps(_get_data_packet(data)))
             except Exception:
                 _ws_list.remove(ws)
 
 
-
-
 loop = asyncio.get_event_loop()
 loop.create_task(transmit_data())
-config = Config(app=app, loop=loop)
+config = Config(app=app, loop=loop, host="0.0.0.0")
 stream.start_stream()
 server = Server(config=config)
 
 
-
 if __name__ == "__main__":
     import logging
+
     logging.basicConfig(level=logging.INFO)
     loop.run_until_complete(server.serve())
