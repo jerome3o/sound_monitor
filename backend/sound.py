@@ -6,6 +6,7 @@ import numpy as np
 CHUNK = 1024 * 2  # Samples: 1024,  512, 256, 128
 RATE = 44100  # Equivalent to Human Hearing at 40 kHz
 FREQ = np.arange((CHUNK / 2) + 1) / (float(CHUNK) / RATE)
+TIME_STEP = CHUNK / RATE
 
 BREAK_POINTS = np.logspace(2, 5, 12 * 4 + 1)
 BREAK_POINTS = BREAK_POINTS[: sum(BREAK_POINTS <= np.max(FREQ)) + 1]

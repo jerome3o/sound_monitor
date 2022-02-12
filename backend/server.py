@@ -3,15 +3,30 @@ import json
 
 from typing import List
 from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
 from uvicorn import Config, Server
 
 
 import numpy as np
 
-from backend.sound import calculate_max_amplitude, calculate_psd, init_stream
+from backend.sound import (
+    calculate_max_amplitude,
+    calculate_psd,
+    init_stream,
+    BREAK_POINTS,
+    TIME_STEP,
+)
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def make_iter():
@@ -42,6 +57,14 @@ async def websocket_endpoint(websocket: WebSocket):
 
     while True:
         await websocket.receive_text()
+
+
+@app.get("/settings")
+async def settings():
+    return {
+        "break_points": list(BREAK_POINTS),
+        "time_step": TIME_STEP,
+    }
 
 
 def _get_data_packet(data: np.array):
