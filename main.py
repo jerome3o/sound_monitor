@@ -53,8 +53,6 @@ def main():
     stream.start_stream()
     app.exec()
 
-    print("he?")
-
 
 if __name__ == "__main__":
     import logging
