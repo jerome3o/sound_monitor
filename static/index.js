@@ -20,14 +20,25 @@ function startPlotting(breakPoints, timeStep) {
     },
   ]);
 
-  Plotly.newPlot(spectrogram, [
+  Plotly.newPlot(
+    spectrogram,
+    [
+      {
+        z: spectrogramDataPlot,
+        x: spectroX,
+        y: breakPoints.map((x) => `${x.toFixed(0)}Hz`),
+        type: "heatmap",
+      },
+    ],
     {
-      z: spectrogramDataPlot,
-      x: spectroX,
-      y: breakPoints.map((x) => `${x.toFixed(0)}Hz`),
-      type: "heatmap",
-    },
-  ]);
+      margin: {
+        t: 0,
+        b: 0,
+        pad: 0,
+      },
+      auto_size: false,
+    }
+  );
 
   function transposeArray(array) {
     return array[0].map((_, i) => array.map((v) => v[i]));
