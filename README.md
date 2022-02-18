@@ -6,8 +6,10 @@ Big Bunnings Brother mandates no sound above regulation dB levels. Calibrated to
 
 ## Docker
 
-docker build . -t soundmonitor
-docker run -d --device /dev/snd:/dev/snd -p "8000:8000" soundmonitor
+```bash
+sudo docker build . -t soundmonitor
+sudo docker run -d --device /dev/snd:/dev/snd -p "8000:8000" soundmonitor
+```
 
 ## From source
 
